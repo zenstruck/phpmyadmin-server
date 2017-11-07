@@ -1,0 +1,21 @@
+#!/usr/bin/env php
+<?php
+
+use Symfony\Component\Console\Application;
+use Zenstruck\PMA\Server\Command\InitCommand;
+use Zenstruck\PMA\Server\Command\RunCommand;
+
+set_time_limit(0);
+
+require __DIR__.'/../vendor/autoload.php';
+
+$application = new Application('phpmyadmin');
+$command = new RunCommand();
+
+$application->addCommands([
+    $command,
+    new InitCommand(),
+]);
+$application->add($command);
+$application->setDefaultCommand($command->getName());
+$application->run();

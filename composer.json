@@ -9,7 +9,11 @@
             "email": "kevinbond@gmail.com"
         }
     ],
+    "autoload": {
+        "psr-4": { "Zenstruck\\PMA\\Server\\Command\\": "src/" }
+    },
     "require": {
-        "symfony/process": "^3.3"
+        "symfony/web-server-bundle": "^3.3",
+        "symfony/filesystem": "^3.3"
     }
 }
