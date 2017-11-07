@@ -12,6 +12,7 @@
     "autoload": {
         "psr-4": { "Zenstruck\\PMA\\Server\\Command\\": "src/" }
     },
+    "bin": ["bin/phpmyadmin"],
     "require": {
         "symfony/web-server-bundle": "^3.3",
         "symfony/filesystem": "^3.3"
