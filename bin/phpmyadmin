@@ -7,7 +7,13 @@ use Zenstruck\PMA\Server\Command\RunCommand;
 
 set_time_limit(0);
 
-require __DIR__.'/../vendor/autoload.php';
+foreach ([__DIR__ . '/../../autoload.php', __DIR__ . '/../vendor/autoload.php', __DIR__ . '/vendor/autoload.php'] as $autoload) {
+    if (file_exists($autoload)) {
+        break;
+    }
+}
+
+require $autoload;
 
 $application = new Application('phpmyadmin');
 $command = new RunCommand();
