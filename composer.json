@@ -1,0 +1,15 @@
+{
+    "name": "zenstruck/phpmyadmin-server",
+    "description": "PHP webserver for phpMyAdmin",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kevin Bond",
+            "email": "kevinbond@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/process": "^3.3"
+    }
+}
