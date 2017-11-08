@@ -1,6 +1,8 @@
 {
     "name": "zenstruck/phpmyadmin-server",
-    "description": "PHP webserver for phpMyAdmin",
+    "description": "Run phpMyAdmin in the background with a PHP webserver",
+    "keywords": ["phpmyadmin", "mysql", "webserver"],
+    "homepage": "http://zenstruck.com/projects/phpmyadmin-server",
     "type": "project",
     "license": "MIT",
     "authors": [
