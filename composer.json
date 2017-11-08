@@ -18,5 +18,10 @@
     "require": {
         "symfony/web-server-bundle": "^3.3",
         "symfony/filesystem": "^3.3"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        }
     }
 }
