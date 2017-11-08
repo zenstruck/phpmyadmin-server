@@ -11,7 +11,7 @@ in the background.
 It is best to install globally with composer:
 
 ```
-composer global request zenstruck/phpmyadmin-server
+composer global require zenstruck/phpmyadmin-server
 ```
 
 **Note**: Ensure you have `~/.composer/vendor/bin` in your `PATH` to give access to the `phpmyadmin`
