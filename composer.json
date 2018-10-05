@@ -16,8 +16,8 @@
     },
     "bin": ["bin/phpmyadmin"],
     "require": {
-        "symfony/web-server-bundle": "^3.3",
-        "symfony/filesystem": "^3.3"
+        "symfony/web-server-bundle": "^3.3|^4.0",
+        "symfony/filesystem": "^3.3|^4.0"
     },
     "extra": {
         "branch-alias": {
