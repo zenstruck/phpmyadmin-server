@@ -34,7 +34,11 @@ final class InitCommand extends BaseCommand
         (new Filesystem())->remove($this->getDocumentRoot());
 
         $io->comment('Downloading latest version of phpMyAdmin...');
-        (new Process('composer create-project phpmyadmin/phpmyadmin .phpmyadmin', $this->getHomeDir()))->run();
+
+        (new Process('composer create-project phpmyadmin/phpmyadmin .phpmyadmin', $this->getHomeDir()))
+            ->setTimeout(null)
+            ->run()
+        ;
 
         $io->comment('Generating config.inc.php');
         $config = file_get_contents(__DIR__.'/../resources/config.inc.template');
