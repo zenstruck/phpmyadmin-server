@@ -26,6 +26,8 @@ final class InitCommand extends BaseCommand
         $io = new SymfonyStyle($input, $output);
 
         $address = $io->ask('Address?', '127.0.0.1:8888');
+        $mysqlHost = $io->ask('MySQL Host?', 'localhost');
+        $mysqlPort = $io->ask('MySQL Port?', '3306');
         $mysqlUser = $io->ask('MySQL User?', 'root');
         $mysqlPass = $io->askHidden('MySQL Password?', function ($value) {
             return (string) $value;
@@ -43,6 +45,8 @@ final class InitCommand extends BaseCommand
         $io->comment('Generating config.inc.php');
         $config = file_get_contents(__DIR__.'/../resources/config.inc.template');
         file_put_contents($this->getDocumentRoot().'/config.inc.php', strtr($config, [
+            '%%mysql_host%%' => $mysqlHost,
+            '%%mysql_port%%' => $mysqlPort,
             '%%mysql_user%%' => $mysqlUser,
             '%%mysql_password%%' => $mysqlPass,
         ]));
