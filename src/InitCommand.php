@@ -55,5 +55,7 @@ final class InitCommand extends BaseCommand
         file_put_contents($this->getAddressFile(), $address);
 
         $io->success('Initialized phpMyAdmin, run "phpmyadmin" to start web server.');
+
+        return 0;
     }
 }
