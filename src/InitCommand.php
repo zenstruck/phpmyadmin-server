@@ -37,7 +37,7 @@ final class InitCommand extends BaseCommand
 
         $io->comment('Downloading latest version of phpMyAdmin...');
 
-        (new Process('composer create-project phpmyadmin/phpmyadmin .phpmyadmin', $this->getHomeDir()))
+        (new Process(['composer create-project phpmyadmin/phpmyadmin .phpmyadmin'], $this->getHomeDir()))
             ->setTimeout(null)
             ->run()
         ;
