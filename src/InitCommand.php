@@ -25,6 +25,7 @@ final class InitCommand extends BaseCommand
     {
         $io = new SymfonyStyle($input, $output);
 
+        $version = $io->ask('phpMyAdmin version (blank for latest)?');
         $address = $io->ask('Address?', '127.0.0.1:8888');
         $mysqlHost = $io->ask('MySQL Host?', 'localhost');
         $mysqlPort = $io->ask('MySQL Port?', '3306');
@@ -37,7 +38,13 @@ final class InitCommand extends BaseCommand
 
         $io->comment('Downloading latest version of phpMyAdmin...');
 
-        (new Process(['composer', 'create-project', 'phpmyadmin/phpmyadmin', '.phpmyadmin'], $this->getHomeDir()))
+        $package = 'phpmyadmin/phpmyadmin';
+
+        if ($version) {
+            $package .= ':'.$version;
+        }
+
+        (new Process(['composer', 'create-project', $package, '.phpmyadmin'], $this->getHomeDir()))
             ->setTimeout(null)
             ->run()
         ;
