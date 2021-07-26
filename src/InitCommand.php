@@ -30,7 +30,7 @@ final class InitCommand extends BaseCommand
         $mysqlHost = $io->ask('MySQL Host?', 'localhost');
         $mysqlPort = $io->ask('MySQL Port?', '3306');
         $mysqlUser = $io->ask('MySQL User?', 'root');
-        $mysqlPass = $io->askHidden('MySQL Password?', function ($value) {
+        $mysqlPass = $io->askHidden('MySQL Password?', function($value) {
             return (string) $value;
         });
 
@@ -50,8 +50,8 @@ final class InitCommand extends BaseCommand
         ;
 
         $io->comment('Generating config.inc.php');
-        $config = file_get_contents(__DIR__.'/../resources/config.inc.template');
-        file_put_contents($this->getDocumentRoot().'/config.inc.php', strtr($config, [
+        $config = \file_get_contents(__DIR__.'/../resources/config.inc.template');
+        \file_put_contents($this->getDocumentRoot().'/config.inc.php', \strtr($config, [
             '%%mysql_host%%' => $mysqlHost,
             '%%mysql_port%%' => $mysqlPort,
             '%%mysql_user%%' => $mysqlUser,
@@ -59,7 +59,7 @@ final class InitCommand extends BaseCommand
         ]));
 
         $io->comment('Writing address file...');
-        file_put_contents($this->getAddressFile(), $address);
+        \file_put_contents($this->getAddressFile(), $address);
 
         $io->success('Initialized phpMyAdmin, run "phpmyadmin" to start web server.');
 
