@@ -15,7 +15,7 @@ recent [Github Release](https://github.com/kbond/phpmyadmin-server/releases). Th
 ensures you will not have any dependency conflict issue.
 
 ```bash
-wget wget https://github.com/kbond/phpmyadmin-server/releases/download/v1.3.0/phpmyadmin.phar -O phpmyadmin && chmod +x phpmyadmin
+wget https://github.com/kbond/phpmyadmin-server/releases/latest/download/phpmyadmin.phar -O phpmyadmin && chmod +x phpmyadmin
 mv phpmyadmin ~/bin # assumes ~/bin is in your PATH
 ```
 
