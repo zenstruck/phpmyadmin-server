@@ -15,7 +15,7 @@ foreach ([__DIR__ . '/../../../autoload.php', __DIR__ . '/../vendor/autoload.php
 
 require $autoload;
 
-$application = new Application('phpmyadmin');
+$application = new Application('phpmyadmin-server', '@dev');
 $command = new RunCommand();
 
 $application->addCommands([

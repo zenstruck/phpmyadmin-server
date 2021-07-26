@@ -26,6 +26,12 @@ jobs:
       - name: Download Box
         run: wget https://github.com/box-project/box/releases/download/3.13.0/box.phar
 
+      - name: Update Version
+        if: github.event_name == 'release'
+        run: sed -i "s/@dev/$TAG/" bin/phpmyadmin
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+
       - name: Compile PHAR
         run: php box.phar compile
 
