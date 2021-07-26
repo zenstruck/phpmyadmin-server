@@ -2,7 +2,9 @@
 
 namespace Zenstruck\PMA\Server\Command;
 
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
@@ -18,6 +20,12 @@ final class InitCommand extends BaseCommand
         $this
             ->setName('init')
             ->setDescription('Initialize phpMyAdmin')
+            ->addArgument('version', InputArgument::OPTIONAL, 'phpMyAdmin version (blank for latest)')
+            ->addOption('address', null, InputOption::VALUE_REQUIRED, 'URL Address', '127.0.0.1:8888')
+            ->addOption('host', null, InputOption::VALUE_REQUIRED, 'MySQL Host', 'localhost')
+            ->addOption('port', null, InputOption::VALUE_REQUIRED, 'MySQL Port', '3306')
+            ->addOption('user', null, InputOption::VALUE_REQUIRED, 'MySQL User', 'root')
+            ->addOption('password', null, InputOption::VALUE_REQUIRED, 'MySQL Password')
         ;
     }
 
@@ -25,14 +33,12 @@ final class InitCommand extends BaseCommand
     {
         $io = new SymfonyStyle($input, $output);
 
-        $version = $io->ask('phpMyAdmin version (blank for latest)?');
-        $address = $io->ask('Address?', '127.0.0.1:8888');
-        $mysqlHost = $io->ask('MySQL Host?', 'localhost');
-        $mysqlPort = $io->ask('MySQL Port?', '3306');
-        $mysqlUser = $io->ask('MySQL User?', 'root');
-        $mysqlPass = $io->askHidden('MySQL Password?', function($value) {
-            return (string) $value;
-        });
+        $version = $input->getArgument('version');
+        $address = $input->getOption('address');
+        $mysqlHost = $input->getOption('host');
+        $mysqlPort = $input->getOption('port');
+        $mysqlUser = $input->getOption('user');
+        $mysqlPass = $input->getOption('password');
 
         (new Filesystem())->remove($this->getDocumentRoot());
 
@@ -70,5 +76,22 @@ final class InitCommand extends BaseCommand
         $io->success('Initialized phpMyAdmin, run "phpmyadmin" to start web server.');
 
         return 0;
+    }
+
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
+        $io = new SymfonyStyle($input, $output);
+        $definition = $this->getDefinition();
+
+        $input->setArgument('version', $io->ask($definition->getArgument('version')->getDescription()));
+
+        foreach (['address', 'host', 'port', 'user'] as $option) {
+            $input->setOption($option, $io->ask(
+                $definition->getOption($option)->getDescription(),
+                $definition->getOption($option)->getDefault()
+            ));
+        }
+
+        $input->setOption('password', $io->askHidden($definition->getOption('password')->getDescription()));
     }
 }
