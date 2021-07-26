@@ -61,6 +61,12 @@ final class InitCommand extends BaseCommand
         $io->comment('Writing address file...');
         \file_put_contents($this->getAddressFile(), $address);
 
+        $io->comment('Writing router file...');
+        \file_put_contents(
+            $this->getRouterFile(),
+            \file_get_contents(__DIR__.'/../vendor/symfony/web-server-bundle/Resources/router.php')
+        );
+
         $io->success('Initialized phpMyAdmin, run "phpmyadmin" to start web server.');
 
         return 0;

@@ -23,4 +23,9 @@ abstract class BaseCommand extends Command
     {
         return $this->getDocumentRoot().'/.address';
     }
+
+    protected function getRouterFile()
+    {
+        return $this->getDocumentRoot().'/.router.php';
+    }
 }
