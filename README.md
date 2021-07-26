@@ -8,7 +8,18 @@ in the background.
 
 ## Installation
 
-It is best to install globally with composer:
+### PHAR
+
+The preferred method of installation is to use the PHAR which can be downloaded from the most
+recent [Github Release](https://github.com/kbond/phpmyadmin-server/releases). This method
+ensures you will not have any dependency conflict issue.
+
+```bash
+wget wget https://github.com/kbond/phpmyadmin-server/releases/download/v1.3.0/phpmyadmin.phar -O phpmyadmin && chmod +x phpmyadmin
+mv phpmyadmin ~/bin # assumes ~/bin is in your PATH
+```
+
+### Composer
 
 ```
 composer global require zenstruck/phpmyadmin-server
