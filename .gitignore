@@ -1,3 +1,5 @@
 /vendor
 /composer.lock
 .php-cs-fixer.cache
+box.phar
+bin/phpmyadmin.phar
