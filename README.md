@@ -1,7 +1,8 @@
 # phpMyAdmin Web Server
 
-[![Latest Stable Version](http://img.shields.io/packagist/v/zenstruck/phpmyadmin-server.svg?style=flat-square)](https://packagist.org/packages/zenstruck/phpmyadmin-server)
-[![License](http://img.shields.io/packagist/l/zenstruck/phpmyadmin-server.svg?style=flat-square)](https://packagist.org/packages/zenstruck/phpmyadmin-server)
+[![CI](https://github.com/kbond/phpmyadmin-server/actions/workflows/ci.yml/badge.svg)](https://github.com/kbond/phpmyadmin-server/actions/workflows/ci.yml)
+[![Latest Stable Version](http://img.shields.io/packagist/v/zenstruck/phpmyadmin-server.svg)](https://packagist.org/packages/zenstruck/phpmyadmin-server)
+[![License](http://img.shields.io/packagist/l/zenstruck/phpmyadmin-server.svg)](https://packagist.org/packages/zenstruck/phpmyadmin-server)
 
 This library gives you a `phpmyadmin` command to start/stop a php webserver running phpMyAdmin
 in the background.
