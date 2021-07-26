@@ -74,13 +74,39 @@ jobs:
       - name: Check CS
         run: php-cs-fixer fix --dry-run --diff
 
+  test-phar:
+    runs-on: ubuntu-latest
+    name: Test PHAR
+    needs:
+      - build-phar
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: 1234
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+      - uses: actions/download-artifact@v1
+        with:
+          name: phpmyadmin.phar
+          path: .
+      - run: |
+          mv phpmyadmin.phar phpmyadmin
+          chmod +x phpmyadmin
+          ./phpmyadmin init --no-interaction --password=1234
+          ./phpmyadmin
+          sleep 2
+          curl -I http://127.0.0.1:8888
+
   publish-phar:
     runs-on: ubuntu-latest
     name: Publish PHAR
     needs:
-        - cs-check
-        - composer-validate
-        - build-phar
+      - cs-check
+      - composer-validate
+      - test-phar
     if: github.event_name == 'release'
     steps:
       - uses: actions/download-artifact@v1
