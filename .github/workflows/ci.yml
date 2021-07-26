@@ -3,6 +3,8 @@ name: CI
 on:
   push:
   pull_request:
+  release:
+    types: [created]
 
 jobs:
   build-phar:
@@ -65,3 +67,27 @@ jobs:
 
       - name: Check CS
         run: php-cs-fixer fix --dry-run --diff
+
+  publish-phar:
+    runs-on: ubuntu-latest
+    name: Publish the PHAR
+    needs:
+        - cs-check
+        - composer-validate
+        - build-phar
+    if: github.event_name == 'release'
+    steps:
+      - uses: actions/download-artifact@v1
+        with:
+          name: phpmyadmin.phar
+          path: .
+
+      - name: Upload box.phar
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: phpmyadmin.phar
+          asset_name: phpmyadmin.phar
+          asset_content_type: application/zip
