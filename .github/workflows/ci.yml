@@ -21,8 +21,13 @@ jobs:
           php-version: 7.4
           coverage: none
 
+      - name: Install Symfony Flex
+        run: composer global require --no-progress --no-scripts --no-plugins symfony/flex dev-main
+
       - name: Install dependencies
         uses: ramsey/composer-install@v1
+        env:
+          SYMFONY_REQUIRE: 4.4.*
 
       - name: Download Box
         run: wget https://github.com/box-project/box/releases/download/3.13.0/box.phar
