@@ -4,6 +4,7 @@
 use Symfony\Component\Console\Application;
 use Zenstruck\PMA\Server\Command\InitCommand;
 use Zenstruck\PMA\Server\Command\RunCommand;
+use Zenstruck\PMA\Server\Command\SelfUpdateCommand;
 
 set_time_limit(0);
 
@@ -16,12 +17,17 @@ foreach ([__DIR__ . '/../../../autoload.php', __DIR__ . '/../vendor/autoload.php
 require $autoload;
 
 $application = new Application('phpmyadmin-server', '@dev');
-$command = new RunCommand();
 
 $application->addCommands([
-    $command,
+    $command = new RunCommand(),
     new InitCommand(),
 ]);
+
+if (0 === strpos(__DIR__, 'phar://')) {
+    // only register self update if using as phar
+    $application->add(new SelfUpdateCommand());
+}
+
 $application->add($command);
 $application->setDefaultCommand($command->getName());
 $application->run();
