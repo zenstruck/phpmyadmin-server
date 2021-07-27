@@ -28,7 +28,7 @@ final class SelfUpdateCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $updater = new Updater(null, false, Updater::STRATEGY_GITHUB);
-        $updater->setBackupPath(\sys_get_temp_dir());
+        $updater->setBackupPath(\sys_get_temp_dir().'/phpmyadmin.phar.bak');
 
         if ($input->getOption('rollback')) {
             if ($updater->rollback()) {
