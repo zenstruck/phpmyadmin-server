@@ -42,18 +42,27 @@ final class InitCommand extends BaseCommand
 
         (new Filesystem())->remove($this->getDocumentRoot());
 
-        $io->comment('Downloading latest version of phpMyAdmin...');
-
         $package = 'phpmyadmin/phpmyadmin';
 
         if ($version) {
             $package .= ':'.$version;
         }
 
-        (new Process(['composer', 'create-project', $package, '.phpmyadmin'], $this->getHomeDir()))
+        $io->comment(\sprintf('Downloading phpMyAdmin <info>%s</info>...', $version ?: 'latest'));
+
+        $process = (new Process(['composer', 'create-project', $package, '.phpmyadmin'], $this->getHomeDir()))
             ->setTimeout(null)
-            ->run()
         ;
+
+        $process->run(function($type, $buffer) use ($io) {
+            if ($io->isVerbose()) {
+                $io->writeln($buffer);
+            }
+        });
+
+        if (!$process->isSuccessful()) {
+            throw new \RuntimeException($process->getErrorOutput());
+        }
 
         $io->comment('Generating config.inc.php');
         $config = \file_get_contents(__DIR__.'/../resources/config.inc.template');
