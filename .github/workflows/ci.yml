@@ -93,13 +93,19 @@ jobs:
         with:
           name: phpmyadmin.phar
           path: .
-      - run: |
+
+      - name: Test init/run
+        run: |
           mv phpmyadmin.phar phpmyadmin
           chmod +x phpmyadmin
           ./phpmyadmin init --no-interaction --password=1234
           ./phpmyadmin
           sleep 2
           curl -I http://127.0.0.1:8888
+
+      - name: Test self-update/rollback
+        if: github.event_name != 'release'
+        run: |
           ./phpmyadmin --version
           ./phpmyadmin self-update
           ./phpmyadmin --version
