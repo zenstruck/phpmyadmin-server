@@ -100,7 +100,11 @@ jobs:
           ./phpmyadmin
           sleep 2
           curl -I http://127.0.0.1:8888
+          ./phpmyadmin --version
           ./phpmyadmin self-update
+          ./phpmyadmin --version
+          ./phpmyadmin self-update --rollback
+          ./phpmyadmin --version
 
   publish-phar:
     runs-on: ubuntu-latest
