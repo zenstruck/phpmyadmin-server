@@ -2,5 +2,10 @@
     "force-autodiscovery": true,
     "files": ["LICENSE", "README.md"],
     "directories": ["resources"],
-    "exclude-dev-files": false
+    "exclude-dev-files": false,
+    "compression": "GZ",
+    "compactors": [
+        "KevinGH\\Box\\Compactor\\Json",
+        "KevinGH\\Box\\Compactor\\Php"
+    ]
 }
