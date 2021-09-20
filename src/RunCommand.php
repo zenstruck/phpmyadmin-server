@@ -26,6 +26,7 @@ final class RunCommand extends BaseCommand
         $io = new SymfonyStyle($input, $output);
 
         if (!\file_exists($address = $this->getAddressFile()) || !\file_exists($router = $this->getRouterFile())) {
+            var_dump($address, $router);
             throw new \RuntimeException('phpMyAdmin not initialized. Run "phpmyadmin init".');
         }
 

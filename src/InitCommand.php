@@ -39,8 +39,9 @@ final class InitCommand extends BaseCommand
         $mysqlPort = $input->getOption('port');
         $mysqlUser = $input->getOption('user');
         $mysqlPass = $input->getOption('password');
+        $fs = new Filesystem();
 
-        (new Filesystem())->remove($this->getDocumentRoot());
+        $fs->remove($this->getDocumentRoot());
 
         $package = 'phpmyadmin/phpmyadmin';
 
@@ -50,7 +51,11 @@ final class InitCommand extends BaseCommand
 
         $io->comment(\sprintf('Downloading phpMyAdmin <info>%s</info>...', $version ?: 'latest'));
 
-        $process = (new Process(['composer', 'create-project', $package, '.phpmyadmin'], $this->getHomeDir()))
+        if (!$fs->exists($orgDir = $this->getOrganizationDir())) {
+            $fs->mkdir($orgDir);
+        }
+
+        $process = (new Process(['composer', 'create-project', $package, $this->getFolderName()], $orgDir))
             ->setTimeout(null)
         ;
 
