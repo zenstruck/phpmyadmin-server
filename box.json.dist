@@ -1,5 +1,6 @@
 {
     "force-autodiscovery": true,
     "files": ["LICENSE", "README.md"],
-    "directories": ["resources"]
+    "directories": ["resources"],
+    "exclude-dev-files": false
 }
