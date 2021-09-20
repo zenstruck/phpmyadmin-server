@@ -16,8 +16,10 @@
     },
     "bin": ["bin/phpmyadmin"],
     "require": {
-        "symfony/web-server-bundle": "^3.3|^4.0",
-        "symfony/filesystem": "^3.3|^4.0|^5.0"
+        "php": ">=7.2",
+        "symfony/web-server-bundle": "^4.4",
+        "symfony/filesystem": "^5.3",
+        "symfony/console": "^5.3"
     },
     "require-dev": {
         "laravel-zero/phar-updater": "^1.1.1"

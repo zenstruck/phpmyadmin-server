@@ -15,7 +15,7 @@ use Symfony\Component\Process\Process;
  */
 final class InitCommand extends BaseCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('init')
@@ -29,7 +29,7 @@ final class InitCommand extends BaseCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
@@ -41,7 +41,7 @@ final class InitCommand extends BaseCommand
         $mysqlPass = $input->getOption('password');
         $fs = new Filesystem();
 
-        $fs->remove($this->getDocumentRoot());
+        $fs->remove($this->documentRoot());
 
         $package = 'phpmyadmin/phpmyadmin';
 
@@ -51,11 +51,11 @@ final class InitCommand extends BaseCommand
 
         $io->comment(\sprintf('Downloading phpMyAdmin <info>%s</info>...', $version ?: 'latest'));
 
-        if (!$fs->exists($orgDir = $this->getOrganizationDir())) {
+        if (!$fs->exists($orgDir = $this->organizationDir())) {
             $fs->mkdir($orgDir);
         }
 
-        $process = (new Process(['composer', 'create-project', $package, $this->getFolderName()], $orgDir))
+        $process = (new Process(['composer', 'create-project', $package, $this->folderName()], $orgDir))
             ->setTimeout(null)
         ;
 
@@ -71,7 +71,7 @@ final class InitCommand extends BaseCommand
 
         $io->comment('Generating config.inc.php');
         $config = \file_get_contents(__DIR__.'/../resources/config.inc.template');
-        \file_put_contents($this->getDocumentRoot().'/config.inc.php', \strtr($config, [
+        \file_put_contents($this->documentRoot().'/config.inc.php', \strtr($config, [
             '%%mysql_host%%' => $mysqlHost,
             '%%mysql_port%%' => $mysqlPort,
             '%%mysql_user%%' => $mysqlUser,
@@ -79,20 +79,20 @@ final class InitCommand extends BaseCommand
         ]));
 
         $io->comment('Writing address file...');
-        \file_put_contents($this->getAddressFile(), $address);
+        \file_put_contents($this->addressFile(), $address);
 
         $io->comment('Writing router file...');
         \file_put_contents(
-            $this->getRouterFile(),
+            $this->routerFile(),
             \file_get_contents(__DIR__.'/../vendor/symfony/web-server-bundle/Resources/router.php')
         );
 
         $io->success('Initialized phpMyAdmin, run "phpmyadmin" to start web server.');
 
-        return 0;
+        return self::SUCCESS;
     }
 
-    protected function interact(InputInterface $input, OutputInterface $output)
+    protected function interact(InputInterface $input, OutputInterface $output): void
     {
         $io = new SymfonyStyle($input, $output);
         $definition = $this->getDefinition();

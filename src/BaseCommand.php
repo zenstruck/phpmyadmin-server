@@ -9,28 +9,28 @@ use Symfony\Component\Console\Command\Command;
  */
 abstract class BaseCommand extends Command
 {
-    protected function getFolderName()
+    protected function folderName(): string
     {
         return 'phpmyadmin-server';
     }
 
-    protected function getOrganizationDir()
+    protected function organizationDir(): string
     {
         return "{$_SERVER['HOME']}/.config/zenstruck";
     }
 
-    protected function getDocumentRoot()
+    protected function documentRoot(): string
     {
-        return "{$this->getOrganizationDir()}/{$this->getFolderName()}";
+        return "{$this->organizationDir()}/{$this->folderName()}";
     }
 
-    protected function getAddressFile()
+    protected function addressFile(): string
     {
-        return "{$this->getDocumentRoot()}/.address";
+        return "{$this->documentRoot()}/.address";
     }
 
-    protected function getRouterFile()
+    protected function routerFile(): string
     {
-        return "{$this->getDocumentRoot()}/.router.php";
+        return "{$this->documentRoot()}/.router.php";
     }
 }

@@ -14,7 +14,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 final class SelfUpdateCommand extends Command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('self-update')
@@ -24,7 +24,7 @@ final class SelfUpdateCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $updater = new Updater(null, false, Updater::STRATEGY_GITHUB);
@@ -35,7 +35,7 @@ final class SelfUpdateCommand extends Command
             if ($updater->rollback()) {
                 $io->success('Successfully rolled back.');
 
-                return 0;
+                return self::SUCCESS;
             }
 
             throw new \RuntimeException('Could not rollback.');
@@ -48,11 +48,11 @@ final class SelfUpdateCommand extends Command
         if (!$updater->update()) {
             $io->success(\sprintf('You are already using the latest available phpmyadmin-server (%s).', $current));
 
-            return 0;
+            return self::SUCCESS;
         }
 
         $io->success(\sprintf('Updated phpmyadmin-server to %s.', $updater->getNewVersion()));
 
-        return 0;
+        return self::SUCCESS;
     }
 }
