@@ -23,7 +23,7 @@ $application->addCommands([
     new InitCommand(),
 ]);
 
-if (0 === strpos(__DIR__, 'phar://')) {
+if (\Phar::running()) {
     // only register self update if using as phar
     $application->add(new SelfUpdateCommand());
 }
