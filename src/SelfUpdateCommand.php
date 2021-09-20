@@ -35,7 +35,7 @@ final class SelfUpdateCommand extends Command
             if ($updater->rollback()) {
                 $io->success('Successfully rolled back.');
 
-                return self::SUCCESS;
+                return 0;
             }
 
             throw new \RuntimeException('Could not rollback.');
@@ -48,11 +48,11 @@ final class SelfUpdateCommand extends Command
         if (!$updater->update()) {
             $io->success(\sprintf('You are already using the latest available phpmyadmin-server (%s).', $current));
 
-            return self::SUCCESS;
+            return 0;
         }
 
         $io->success(\sprintf('Updated phpmyadmin-server to %s.', $updater->getNewVersion()));
 
-        return self::SUCCESS;
+        return 0;
     }
 }

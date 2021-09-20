@@ -35,7 +35,7 @@ final class RunCommand extends BaseCommand
             $server->stop($this->pidFile());
             $io->success('Stopped the phpMyAdmin web server.');
 
-            return self::SUCCESS;
+            return 0;
         }
 
         $config = new WebServerConfig(
@@ -49,7 +49,7 @@ final class RunCommand extends BaseCommand
             $io->success(\sprintf('phpMyAdmin web server listening on http://%s', $config->getAddress()));
         }
 
-        return self::SUCCESS;
+        return 0;
     }
 
     protected function pidFile(): string

@@ -89,7 +89,7 @@ final class InitCommand extends BaseCommand
 
         $io->success('Initialized phpMyAdmin, run "phpmyadmin" to start web server.');
 
-        return self::SUCCESS;
+        return 0;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output): void

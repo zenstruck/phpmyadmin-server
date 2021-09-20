@@ -21,16 +21,11 @@ jobs:
           php-version: 7.4
           coverage: none
 
-      - name: Install Symfony Flex
-        run: composer global require --no-progress --no-scripts --no-plugins symfony/flex dev-main
-
       - name: Install dependencies
         uses: ramsey/composer-install@v1
-        env:
-          SYMFONY_REQUIRE: 4.4.*
 
       - name: Download Box
-        run: wget https://github.com/box-project/box/releases/download/3.13.0/box.phar
+        run: wget https://github.com/box-project/box/releases/latest/download/box.phar
 
       - name: Update Version
         if: github.event_name == 'release'
@@ -105,6 +100,7 @@ jobs:
           ./phpmyadmin
           sleep 2
           curl -I http://127.0.0.1:8888
+          ./phpmyadmin self-update
 
   publish-phar:
     runs-on: ubuntu-latest
