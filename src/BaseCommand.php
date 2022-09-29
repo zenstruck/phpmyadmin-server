@@ -2,6 +2,7 @@
 
 namespace Zenstruck\PMA\Server\Command;
 
+use Symfony\Bundle\WebServerBundle\WebServerConfig;
 use Symfony\Component\Console\Command\Command;
 
 /**
@@ -9,6 +10,15 @@ use Symfony\Component\Console\Command\Command;
  */
 abstract class BaseCommand extends Command
 {
+    protected function webserverConfig(): WebServerConfig
+    {
+        if (!\file_exists($address = $this->addressFile()) || !\file_exists($router = $this->routerFile())) {
+            throw new \RuntimeException('phpMyAdmin not initialized. Run "phpmyadmin init".');
+        }
+
+        return new WebServerConfig($this->documentRoot(), 'dev', \file_get_contents($address), $router);
+    }
+
     protected function folderName(): string
     {
         return 'phpmyadmin-server';
@@ -32,5 +42,10 @@ abstract class BaseCommand extends Command
     protected function routerFile(): string
     {
         return "{$this->documentRoot()}/.router.php";
+    }
+
+    protected function pidFile(): string
+    {
+        return $this->documentRoot().'/.pid';
     }
 }

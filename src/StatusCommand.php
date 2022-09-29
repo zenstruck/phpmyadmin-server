@@ -10,33 +10,30 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
  */
-final class RunCommand extends BaseCommand
+final class StatusCommand extends BaseCommand
 {
     protected function configure(): void
     {
         $this
-            ->setName('run')
-            ->setDescription('Starts/Stops the phpMyAdmin web server')
+            ->setName('status')
+            ->setDescription('Check the status of the phpMyAdmin server')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $config = $this->webserverConfig();
         $server = new WebServer();
+        $config = $this->webserverConfig();
 
         if ($server->isRunning($this->pidFile())) {
-            $server->stop($this->pidFile());
-            $io->success('Stopped the phpMyAdmin web server.');
+            $io->success(\sprintf('phpMyAdmin web server is running (http://%s).', $config->getAddress()));
 
             return 0;
         }
 
-        if (WebServer::STARTED === $server->start($config, $this->pidFile())) {
-            $io->success(\sprintf('phpMyAdmin web server listening on http://%s', $config->getAddress()));
-        }
+        $io->warning('phpMyAdmin web server is NOT running.');
 
-        return 0;
+        return 1;
     }
 }
