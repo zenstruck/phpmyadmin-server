@@ -74,6 +74,13 @@ jobs:
           name: phpmyadmin.phar
           path: .
 
+      - name: Setup PHP
+        uses: shivammathur/setup-php@2.7.0
+        with:
+          php-version: 7.4
+          coverage: none
+          tools: symfony
+
       - name: Test init/run
         run: |
           mv phpmyadmin.phar phpmyadmin
@@ -82,7 +89,7 @@ jobs:
           ./phpmyadmin
           ./phpmyadmin status
           sleep 2
-          curl -I http://127.0.0.1:8888
+          curl -I http://127.0.0.1:8000
 
       - name: Test self-update/rollback
         if: github.event_name != 'release'
@@ -100,6 +107,7 @@ jobs:
       - cs-check
       - composer-validate
       - test-phar
+      - sca
     if: github.event_name == 'release'
     steps:
       - uses: actions/download-artifact@v1

@@ -17,9 +17,9 @@
     "bin": ["bin/phpmyadmin"],
     "require": {
         "php": ">=7.4",
-        "symfony/web-server-bundle": "^4.4",
         "symfony/filesystem": "^5.4",
-        "symfony/console": "^5.4"
+        "symfony/console": "^5.4",
+        "symfony/process": "^5.4"
     },
     "require-dev": {
         "laravel-zero/phar-updater": "^1.1.1",
