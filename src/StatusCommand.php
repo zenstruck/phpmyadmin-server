@@ -2,7 +2,6 @@
 
 namespace Zenstruck\PMA\Server\Command;
 
-use Symfony\Bundle\WebServerBundle\WebServer;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -23,16 +22,14 @@ final class StatusCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $server = new WebServer();
-        $config = $this->webserverConfig();
 
-        if ($server->isRunning($this->pidFile())) {
-            $io->success(\sprintf('phpMyAdmin web server is running (http://%s).', $config->getAddress()));
-
-            return 0;
+        if (!$io->isQuiet()) {
+            $io->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
         }
 
-        $io->warning('phpMyAdmin web server is NOT running.');
+        if ($this->isRunning($io)) {
+            return 0;
+        }
 
         return 1;
     }

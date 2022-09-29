@@ -2,50 +2,73 @@
 
 namespace Zenstruck\PMA\Server\Command;
 
-use Symfony\Bundle\WebServerBundle\WebServerConfig;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\ExecutableFinder;
+use Symfony\Component\Process\Process;
 
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
  */
 abstract class BaseCommand extends Command
 {
-    protected function webserverConfig(): WebServerConfig
+    final protected function isRunning(OutputInterface $output): bool
     {
-        if (!\file_exists($address = $this->addressFile()) || !\file_exists($router = $this->routerFile())) {
+        $process = $this->executeSymfonyCommand(['server:status'], $output);
+
+        return !\str_contains($process->getOutput(), 'Not Running');
+    }
+
+    /**
+     * @param string[] $parameters
+     */
+    final protected function executeProcess(array $parameters, string $workingDir, OutputInterface $output): Process
+    {
+        $process = (new Process($parameters, $workingDir))
+            ->setTimeout(null)
+        ;
+
+        $process->run(function($type, $buffer) use ($output) {
+            if ($output->isVerbose()) {
+                $output->writeln($buffer);
+            }
+        });
+
+        if (!$process->isSuccessful()) {
+            throw new \RuntimeException($process->getErrorOutput());
+        }
+
+        return $process;
+    }
+
+    /**
+     * @param string[] $parameters
+     */
+    final protected function executeSymfonyCommand(array $parameters, OutputInterface $output): Process
+    {
+        if (!\is_dir($this->documentRoot())) {
             throw new \RuntimeException('phpMyAdmin not initialized. Run "phpmyadmin init".');
         }
 
-        return new WebServerConfig($this->documentRoot(), 'dev', \file_get_contents($address), $router);
+        if (!$symfony = (new ExecutableFinder())->find('symfony')) {
+            throw new \RuntimeException('Symfony CLI is required: https://symfony.com/download#step-1-install-symfony-cli');
+        }
+
+        return $this->executeProcess(\array_merge([$symfony], $parameters), $this->documentRoot(), $output);
     }
 
-    protected function folderName(): string
+    final protected function folderName(): string
     {
         return 'phpmyadmin-server';
     }
 
-    protected function organizationDir(): string
+    final protected function organizationDir(): string
     {
         return "{$_SERVER['HOME']}/.config/zenstruck";
     }
 
-    protected function documentRoot(): string
+    final protected function documentRoot(): string
     {
         return "{$this->organizationDir()}/{$this->folderName()}";
-    }
-
-    protected function addressFile(): string
-    {
-        return "{$this->documentRoot()}/.address";
-    }
-
-    protected function routerFile(): string
-    {
-        return "{$this->documentRoot()}/.router.php";
-    }
-
-    protected function pidFile(): string
-    {
-        return $this->documentRoot().'/.pid';
     }
 }
