@@ -7,10 +7,10 @@ use Zenstruck\PMA\Server\Command\RunCommand;
 use Zenstruck\PMA\Server\Command\SelfUpdateCommand;
 use Zenstruck\PMA\Server\Command\StatusCommand;
 
-set_time_limit(0);
+\set_time_limit(0);
 
-foreach ([__DIR__ . '/../../../autoload.php', __DIR__ . '/../vendor/autoload.php'] as $autoload) {
-    if (file_exists($autoload)) {
+foreach ([__DIR__.'/../../../autoload.php', __DIR__.'/../vendor/autoload.php'] as $autoload) {
+    if (\file_exists($autoload)) {
         break;
     }
 }
@@ -22,7 +22,7 @@ $application = new Application('phpmyadmin-server', '@dev');
 $application->addCommands([
     $command = new RunCommand(),
     new InitCommand(),
-    new StatusCommand()
+    new StatusCommand(),
 ]);
 
 if (\Phar::running()) {

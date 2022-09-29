@@ -16,20 +16,13 @@
     },
     "bin": ["bin/phpmyadmin"],
     "require": {
-        "php": ">=7.2",
+        "php": ">=7.4",
         "symfony/web-server-bundle": "^4.4",
-        "symfony/filesystem": "^4.4",
-        "symfony/console": "^4.4"
+        "symfony/filesystem": "^5.4",
+        "symfony/console": "^5.4"
     },
     "require-dev": {
-        "laravel-zero/phar-updater": "^1.1.1"
-    },
-    "conflict": {
-        "symfony/string": "*"
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.x-dev"
-        }
+        "laravel-zero/phar-updater": "^1.1.1",
+        "phpstan/phpstan": "^1.8"
     }
 }

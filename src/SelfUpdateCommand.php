@@ -43,7 +43,7 @@ final class SelfUpdateCommand extends Command
 
         $updater->getStrategy()->setPackageName('zenstruck/phpmyadmin-server');
         $updater->getStrategy()->setPharName('phpmyadmin.phar');
-        $updater->getStrategy()->setCurrentLocalVersion($current = $this->getApplication()->getVersion());
+        $updater->getStrategy()->setCurrentLocalVersion($current = $this->getApplication()->getVersion()); // @phpstan-ignore-line
 
         if (!$updater->update()) {
             $io->success(\sprintf('You are already using the latest available phpmyadmin-server (%s).', $current));

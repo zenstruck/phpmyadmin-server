@@ -16,7 +16,7 @@ abstract class BaseCommand extends Command
             throw new \RuntimeException('phpMyAdmin not initialized. Run "phpmyadmin init".');
         }
 
-        return new WebServerConfig($this->documentRoot(), 'dev', \file_get_contents($address), $router);
+        return new WebServerConfig($this->documentRoot(), 'dev', \file_get_contents($address), $router); // @phpstan-ignore-line
     }
 
     protected function folderName(): string

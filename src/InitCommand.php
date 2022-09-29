@@ -71,7 +71,7 @@ final class InitCommand extends BaseCommand
 
         $io->comment('Generating config.inc.php');
         $config = \file_get_contents(__DIR__.'/../resources/config.inc.template');
-        \file_put_contents($this->documentRoot().'/config.inc.php', \strtr($config, [
+        \file_put_contents($this->documentRoot().'/config.inc.php', \strtr($config, [ // @phpstan-ignore-line
             '%%mysql_host%%' => $mysqlHost,
             '%%mysql_port%%' => $mysqlPort,
             '%%mysql_user%%' => $mysqlUser,
@@ -102,7 +102,7 @@ final class InitCommand extends BaseCommand
         foreach (['address', 'host', 'port', 'user'] as $option) {
             $input->setOption($option, $io->ask(
                 $definition->getOption($option)->getDescription(),
-                $definition->getOption($option)->getDefault()
+                $definition->getOption($option)->getDefault() // @phpstan-ignore-line
             ));
         }
 
