@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## [v1.8.0](https://github.com/zenstruck/phpmyadmin-server/releases/tag/v1.8.0)
+
+December 16th, 2022 - [v1.7.0...v1.8.0](https://github.com/zenstruck/phpmyadmin-server/compare/v1.7.0...v1.8.0)
+
+* ac0620e fix(ci): remove branch filter by @kbond
+* 6dbdd8d chore(ci): update (#7) by @kbond
+* 74bc3e9 feat: require php8 (#7) by @kbond
+
 ## [v1.7.0](https://github.com/zenstruck/phpmyadmin-server/releases/tag/v1.7.0)
 
 September 29th, 2022 - [v1.6.0...v1.7.0](https://github.com/zenstruck/phpmyadmin-server/compare/v1.6.0...v1.7.0)
