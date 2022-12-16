@@ -18,7 +18,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@2.7.0
         with:
-          php-version: 7.4
+          php-version: 8.0
           coverage: none
 
       - name: Install dependencies
@@ -44,11 +44,6 @@ jobs:
 
   composer-validate:
     uses: zenstruck/.github/.github/workflows/php-composer-validate.yml@main
-
-  cs-check:
-    uses: zenstruck/.github/.github/workflows/php-cs-fixer.yml@main
-    with:
-      php: 8.0
 
   sca:
     uses: zenstruck/.github/.github/workflows/php-stan.yml@main
@@ -77,7 +72,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@2.7.0
         with:
-          php-version: 7.4
+          php-version: 8.0
           coverage: none
           tools: symfony
 
@@ -104,7 +99,6 @@ jobs:
     runs-on: ubuntu-latest
     name: Publish PHAR
     needs:
-      - cs-check
       - composer-validate
       - test-phar
       - sca
@@ -116,7 +110,7 @@ jobs:
           path: .
 
       - name: Upload phpmyadmin.phar
-        uses: actions/upload-release-asset@v1
+        uses: shogo82148/actions-upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -124,3 +118,24 @@ jobs:
           asset_path: phpmyadmin.phar
           asset_name: phpmyadmin.phar
           asset_content_type: application/zip
+
+  fixcs:
+    name: Run php-cs-fixer
+    needs: sync-with-template
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: zenstruck/.github@php-cs-fixer
+        with:
+          php: 8
+          key: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  sync-with-template:
+    name: Sync meta files
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: zenstruck/.github@sync-with-template
+        with:
+          key: ${{ secrets.GPG_PRIVATE_KEY }}
+          codecov: false
