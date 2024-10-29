@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## [v1.9.0](https://github.com/zenstruck/phpmyadmin-server/releases/tag/v1.9.0)
+
+October 29th, 2024 - [v1.8.0...v1.9.0](https://github.com/zenstruck/phpmyadmin-server/compare/v1.8.0...v1.9.0)
+
+* dfb5ac0 fix: ci by @kbond
+* b8d0968 feat: update min deps by @kbond
+* 37cd5d5 fix(ci): add token by @kbond
+* 88ef5b9 minor: small fix by @kbond
+
 ## [v1.8.0](https://github.com/zenstruck/phpmyadmin-server/releases/tag/v1.8.0)
 
 December 16th, 2022 - [v1.7.0...v1.8.0](https://github.com/zenstruck/phpmyadmin-server/compare/v1.7.0...v1.8.0)
